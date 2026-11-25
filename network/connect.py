@@ -35,8 +35,13 @@ class Connect:
         if not self.alive:
             return
 
-        data = json.dumps(message).encode() + b"\n"
-        self.socket.sendall(data)
+        try:
+            data = json.dumps(message).encode() + b"\n"
+            self.socket.sendall(data)
+            return True
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError, OSError) as e:
+            self.alive = False
+            return False
 
     def receiving(self):
         buffer = b""
@@ -61,7 +66,15 @@ class Connect:
         self.socket = None
 
         if sock is not None:
-            sock.shutdown(socket.SHUT_RDWR)
+            try:
+                sock.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+            try:
+                sock.close()
+            except OSError:
+                pass
+            
 
 
                 

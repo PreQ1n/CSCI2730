@@ -54,6 +54,7 @@ class Network:
 
     def listening(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as receiving_node:
+            receiving_node.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             receiving_node.bind(("0.0.0.0", self.my_port))
             receiving_node.listen(10)
             print(f"Listening on {self.my_port}")
@@ -137,13 +138,22 @@ class Network:
 
     def broadcast_all(self, message):
         with self.lock:
-            peers = list(self.peers.values())
+            peers = list(self.peers.items())
 
-        for peer in peers:
-            peer.send(message)
+        dead = []
+        for key, peer in peers:
+            if not peer.send(message):
+                dead.append(key)
+        if dead:
+            with self.lock:
+                for key in dead:
+                    self.peers.pop(key, None)
 
     def shutdown(self):
-        for _, connection in self.peers:
+        with self.lock:
+            peers = list(self.peers.values())
+            self.peers.clear()
+        for connection in peers:
             connection.close()
 
 

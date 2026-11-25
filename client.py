@@ -84,6 +84,7 @@ def main():
     exiting = False
     while(True):
         if exiting:
+            my_node.network.shutdown()
             print("Good Bye!")
             break
 

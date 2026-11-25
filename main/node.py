@@ -31,6 +31,10 @@ class Node:
 
             block = mine_block(self.chain, self.mempool, self.address)
 
+            if block is None:
+                time.sleep(1)
+                continue
+
             if self.chain.add_block(block):
                 hashing = []
                 for transaction in block.transactions:
