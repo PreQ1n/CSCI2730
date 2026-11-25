@@ -24,7 +24,7 @@ python3 -m network.bootnode
    1. port
    2. bootnode address with port (127.0.0.1:9000)
    3. wallet file (json file), For first time, can be a non-exist file
-   4. balance (only for the init system purpose
+   4. balance (only for the init system purpose)
 
    ```
    python3 -m client --port 8000 --bootnode 127.0.0.1:9000 --wallet wallet1.json --balance 100
