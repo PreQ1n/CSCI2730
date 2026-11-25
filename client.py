@@ -105,8 +105,8 @@ def main():
 
         elif cmd == "exist":
             n = 1
-            for key in my_node.chain.balances:
-                print(f"{n} : {key}")
+            for key, item in my_node.chain.balances.items():
+                print(f"{n} : {key} --> {item}")
                 n += 1
 
         elif cmd == "transaction":
