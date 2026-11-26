@@ -1,4 +1,4 @@
-# CSCI2730 Project: A Simple Backend Blockchain System with Falcons Encrpytion
+# CSCI2730 Project: A Simple Backend Blockchain System with Falcons Encryption
 
 **Installation**
 
